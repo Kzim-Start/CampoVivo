@@ -76,3 +76,22 @@
 :root[data-theme="dark"] .hero-copy p{color:#e3f8ea}
 :root[data-theme="dark"] .footer button{color:#9bd7ae}
 @media (max-width:650px){.theme-toggle{width:35px;height:35px;border-radius:10px}}
+/* Sidebar: preservar acesso ao perfil mesmo em zoom ou notebooks pequenos. */
+.sidebar{height:100dvh;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#9bbeaa transparent}
+.sidebar-nav,.sidebar-bottom,.sidebar-profile{flex-shrink:0}
+.sidebar-profile{min-width:0;gap:9px}
+.sidebar-profile>span:nth-child(2){min-width:0;overflow:hidden}
+.sidebar-profile strong,.sidebar-profile small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sidebar-profile>svg{flex-shrink:0}
+.mini-stats-grid.four-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+.fuel-explanation{display:flex;gap:12px;align-items:flex-start;background:#eaf7ee;border:1px solid #d4ebdb;color:#477658;padding:16px 18px;border-radius:13px;margin:0 0 17px;font-size:12px;line-height:1.65}
+.fuel-explanation>svg{color:#369262;flex-shrink:0;margin-top:2px}
+.fuel-explanation p{margin:0}
+.fuel-vehicle-cell{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fuel-vehicle-cell small{font-size:10px;color:#8fa69a;line-height:1.4;max-width:225px;white-space:normal}
+:root[data-theme="dark"] .fuel-explanation{background:#203b2b;color:#b8dcc4;border-color:#355b43}
+:root[data-theme="dark"] .fuel-vehicle-cell small{color:#a7bfae}
+@media(max-height:820px){.sidebar{padding-top:19px;padding-bottom:12px}.brand{padding-bottom:20px}.sidebar-banner{height:112px;padding:12px 15px;margin:7px 3px 9px}.sidebar-banner h3{font-size:13px;margin:2px 0 3px}.sidebar-banner p{font-size:9px}.sidebar-group-label{margin-bottom:9px}.nav-item{min-height:40px}.sidebar-nav{gap:3px}}
+@media(max-height:650px){.sidebar-banner{display:none}.sidebar-profile{margin-top:9px;padding-top:10px}.brand{padding-bottom:12px}.sidebar{padding-top:12px}}
+@media(max-width:1250px){.mini-stats-grid.four-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.mini-stats-grid.four-stats{grid-template-columns:1fr}.fuel-explanation{padding:14px;gap:9px}}
