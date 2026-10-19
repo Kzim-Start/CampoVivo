@@ -5,7 +5,7 @@ import {
   Activity, AlertCircle, ArrowDownRight, ArrowRight, ArrowUpRight,
   BarChart3, Bell, CalendarDays, Check, CheckCircle2, ChevronDown,
   ChevronRight, CircleDollarSign, ClipboardList, Clock3, Download,
-  Droplets, Fuel, HeartPulse, Leaf, Menu, MoreHorizontal, NotebookPen,
+  Droplets, Fuel, HeartPulse, Leaf, Menu, Moon, Sun, MoreHorizontal, NotebookPen,
   Pencil, Plus, Search, Settings2, ShieldCheck, Sparkles, Syringe,
   Trash2, TrendingUp, Wallet, X, Beef, Tractor, RotateCcw, Upload,
   type LucideIcon,
@@ -140,6 +140,20 @@ export default function Home() {
   const [fuelPrice, setFuelPrice] = useState(0);
   const [farmInput, setFarmInput] = useState("");
   const importRef = useRef<HTMLInputElement | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [themeReady, setThemeReady] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem("campovivo:theme");
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    setTheme(stored === "light" || stored === "dark" ? stored : systemTheme);
+    setThemeReady(true);
+  }, []);
+  useEffect(() => {
+    if (!themeReady) return;
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("campovivo:theme", theme);
+  }, [theme, themeReady]);
 
   useEffect(() => {
     try {
@@ -301,7 +315,7 @@ export default function Home() {
     <div className="workspace">
       <header className="topbar">
         <div className="topbar-left"><button className="mobile-menu icon-button" aria-label="Abrir menu" onClick={() => setMobileMenu(true)}><Menu size={22}/></button><span className="topbar-breadcrumb">Painel</span><ChevronRight size={15} className="subtle"/><span className="topbar-current">{pageNames[page]}</span></div>
-        <div className="topbar-actions"><span className="topbar-date"><CalendarDays size={16}/>{topbarDate}</span><span className="vertical-rule"/><button className="topbar-farm" title="Nome da fazenda" onClick={() => navigate("settings")}><span className="topbar-farm-icon"><Tractor size={18}/></span><span>{data.farmName}</span><ChevronDown size={15}/></button><button className="topbar-avatar" onClick={() => navigate("settings")} title="Configurações">KV</button></div>
+        <div className="topbar-actions"><button type="button" className="theme-toggle" onClick={() => setTheme(current => current === "dark" ? "light" : "dark")} aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"} aria-pressed={theme === "dark"} title={theme === "dark" ? "Mudar para tema claro" : "Mudar para tema escuro"}>{theme === "dark" ? <Sun size={18} strokeWidth={2.1}/> : <Moon size={18} strokeWidth={2.1}/>}</button><span className="topbar-date"><CalendarDays size={16}/>{topbarDate}</span><span className="vertical-rule"/><button className="topbar-farm" title="Nome da fazenda" onClick={() => navigate("settings")}><span className="topbar-farm-icon"><Tractor size={18}/></span><span>{data.farmName}</span><ChevronDown size={15}/></button><button className="topbar-avatar" onClick={() => navigate("settings")} title="Configurações">KV</button></div>
       </header>
       <main className="main-content" key={page}>
         {page === "dashboard" && <>
