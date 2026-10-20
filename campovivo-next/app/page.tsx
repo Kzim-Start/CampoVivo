@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import Entrada from "./entrada";
 import {
   Activity, AlertCircle, ArrowDownRight, ArrowRight, ArrowUpRight,
   BarChart3, Bell, CalendarDays, Check, CheckCircle2, ChevronDown,
   ChevronRight, CircleDollarSign, ClipboardList, Clock3, Download,
   Droplets, Fuel, HeartPulse, Leaf, Menu, Moon, Sun, MoreHorizontal, NotebookPen,
-  Pencil, Plus, Search, Settings2, ShieldCheck, Sparkles, Syringe,
+  Pencil, Plus, Search, Settings2, ShieldCheck, Sparkles, Syringe, LogOut,
   Trash2, TrendingUp, Wallet, X, Beef, Tractor, RotateCcw, Upload,
   type LucideIcon,
 } from "lucide-react";
@@ -130,6 +131,7 @@ function NavButton({ item, selected, onClick }: { item: MenuItem; selected: bool
 
 export default function Home() {
   const [data, setData] = useState<FarmData | null>(null);
+  const [demoAccess, setDemoAccess] = useState<boolean | null>(null);
   const [page, setPage] = useState<Page>("dashboard");
   const [mobileMenu, setMobileMenu] = useState(false);
   const [modal, setModal] = useState<Kind | null>(null);
@@ -143,6 +145,10 @@ export default function Home() {
   const importRef = useRef<HTMLInputElement | null>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [themeReady, setThemeReady] = useState(false);
+
+  useEffect(() => { setDemoAccess(window.sessionStorage.getItem("campovivo:demo:access") === "yes"); }, []);
+  function enterDemo() { window.sessionStorage.setItem("campovivo:demo:access", "yes"); setDemoAccess(true); window.scrollTo(0, 0); }
+  function exitDemo() { window.sessionStorage.removeItem("campovivo:demo:access"); setDemoAccess(false); setModal(null); setPage("dashboard"); setMobileMenu(false); window.scrollTo(0, 0); }
 
   useEffect(() => {
     const stored = window.localStorage.getItem("campovivo:theme");
@@ -285,7 +291,8 @@ export default function Home() {
     return { monthlyCosts, fuelLiters, openCases, nextVaccines, months, categories };
   }, [data]);
 
-  if (!data || !stats) return <div className="load-screen"><div className="brand-symbol"><Leaf size={28}/></div><h2>CampoVivo</h2><p>Preparando sua fazenda...</p></div>;
+  if (demoAccess === false) return <Entrada onEnter={enterDemo} theme={theme} onToggleTheme={() => setTheme(t => t === "dark" ? "light" : "dark")}/>;
+  if (!data || !stats || demoAccess === null) return <div className="load-screen"><div className="brand-symbol"><Leaf size={28}/></div><h2>CampoVivo</h2><p>Preparando sua fazenda...</p></div>;
 
   const normalizeSearch = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR");
   const matches = (value: string) => normalizeSearch(value).includes(normalizeSearch(search.trim()));
@@ -313,7 +320,8 @@ export default function Home() {
       <div className="sidebar-bottom">
         <div className="sidebar-banner"><span className="mini-sun">✦</span><h3>Uma fazenda<br/>mais conectada.</h3><p>O controle do seu campo começa aqui.</p><span className="sidebar-banner-sheen"/></div>
         <button className={`nav-item ${page === "settings" ? "nav-active" : ""}`} onClick={() => navigate("settings")}><Settings2 size={19}/><span>Configurações</span></button>
-        <div className="sidebar-profile"><span className="profile-avatar">KV</span><span><strong>Administrador</strong><small>Minha fazenda</small></span><MoreHorizontal size={18}/></div>
+        <div className="sidebar-profile"><span className="profile-avatar">KV</span><span><strong>Administrador</strong><small>Acesso demonstrativo</small></span><MoreHorizontal size={18}/></div>
+        <button type="button" className="sidebar-signout" onClick={exitDemo}><LogOut size={16}/> Voltar à página inicial</button>
       </div>
     </aside>
     <div className="workspace">
