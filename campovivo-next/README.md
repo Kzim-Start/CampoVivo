@@ -50,3 +50,15 @@ Os cadastros iniciais são **exemplos fictícios** para explorar a interface. Us
 ## Próximos passos técnicos
 
 Separar componentes e contexto em módulos, validar formulários com Zod, criar rotas de API no Next.js, persistir em PostgreSQL via Prisma e implementar login multiusuário, níveis de acesso e trilha de auditoria.
+
+## Página de entrada e acesso demonstrativo
+
+A página pública de entrada apresenta o sistema e permite abrir um modal com credenciais de **demonstração**:
+
+- E-mail: `demo@campovivo.com`
+- Senha: `CampoVivo2026`
+
+Use o botão **Preencher dados de demonstração** para entrar mais rápido. A sessão dura enquanto a aba do navegador permanece aberta e pode ser encerrada pelo menu lateral. O visual da entrada oferece alternância entre temas claro e escuro e favicon próprio com sol sobre pastagem (`app/icon.svg`).
+
+**Segurança:** este acesso é apenas uma experiência de demonstração feita no navegador. Ele **não autentica usuários no servidor**, não protege os dados da aplicação e **não deve ser usado para dados reais ou sensíveis**. Para colocar em produção, implemente autenticação real, regras de acesso e banco de dados persistente no servidor.
+
