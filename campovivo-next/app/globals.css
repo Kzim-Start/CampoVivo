@@ -95,3 +95,9 @@
 @media(max-height:650px){.sidebar-banner{display:none}.sidebar-profile{margin-top:9px;padding-top:10px}.brand{padding-bottom:12px}.sidebar{padding-top:12px}}
 @media(max-width:1250px){.mini-stats-grid.four-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.mini-stats-grid.four-stats{grid-template-columns:1fr}.fuel-explanation{padding:14px;gap:9px}}
+
+/* Retorno à página pública, sem perder os dados locais. */
+.sidebar-signout{display:flex;align-items:center;justify-content:flex-start;gap:9px;width:100%;margin-top:8px;padding:10px 9px;background:transparent;border:1px solid transparent;border-radius:8px;color:#698275;text-align:left;font-size:10.5px;font-weight:700;transition:background .2s,color .2s}
+.sidebar-signout:hover{background:#eff7ef;color:#28704c}
+:root[data-theme="dark"] .sidebar-signout{color:#a4c2ae}
+:root[data-theme="dark"] .sidebar-signout:hover{background:#274733;color:#b2edc5}
